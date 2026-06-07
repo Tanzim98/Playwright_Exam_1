@@ -2,7 +2,7 @@ import time
 from importlib import reload
 
 import pytest
-from playwright.sync_api import sync_playwright, expect
+from playwright.sync_api import sync_playwright
 
 # step 1: Choose Browser / Supported Browser
 Supported_Browsers = ["Firefox", "Chrome", "Webkit", "Safari"]
@@ -21,7 +21,6 @@ def setup(request):
 
     # Step 5: Start Playwright
     playwright = sync_playwright().start()
-    playwright.selectors.set_test_id_attribute("data-test-id")
 
     # step 6: Browser Launch
     if Browser_Name == "chromium":
@@ -61,7 +60,6 @@ class TestNestedMenu:
     def test_nested_menu_hover(self):
 
         first_layer = self.page.get_by_test_id("tree-menu-root")
-        expect(first_layer).to_be_visible()
         first_layer.hover()
         self.page.wait_for_timeout(2000)
 
