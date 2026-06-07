@@ -11,7 +11,7 @@ Supported_Browsers = ["Firefox", "Chrome", "Webkit", "Safari"]
 Browser_Name = "firefox"
 
 # STep 3: URL
-URL = "https://automation.ebrahimhossain.com.bd/drag-and-drop.html"
+URL = " https://automation.ebrahimhossain.com.bd/form.html "
 Headless = False
 # Step 4: Setup + Teardown
 
@@ -57,11 +57,13 @@ def setup(request):
 
 
 @pytest.mark.usefixtures("setup")
-class TestDragAndDrop:
-    def test_drag_and_drop(self):
+class TestKeyboardShortcut:
+    def test_keyboard_shortcut(self):
 
-        source = self.page.locator("#draggable-simple")
-        # source_box = self.page.locator("#source-box")
-        target_box = self.page.locator("#target-box")
-        source.drag_to(target_box)
+        self.page.locator("#firstName").fill("Tanzim")
+        last_name = self.page.locator("#lastName")
+        self.page.keyboard.press("Control+A")
+        self.page.keyboard.press("Control+C")
+        last_name.click()
+        self.page.keyboard.press("Control+V")
         self.page.wait_for_timeout(2000)
