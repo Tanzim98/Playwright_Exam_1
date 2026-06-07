@@ -11,7 +11,7 @@ Supported_Browsers = ["Firefox", "Chrome", "Webkit", "Safari"]
 Browser_Name = "firefox"
 
 # STep 3: URL
-URL = " https://google.com  "
+URL = "https://automation.ebrahimhossain.com.bd/buttons.html"
 Headless = False
 # Step 4: Setup + Teardown
 
@@ -60,12 +60,12 @@ def setup(request):
 
 
 @pytest.mark.usefixtures("setup")
-class Test_Multi_Tab:
-    def test_multi_tab(self):
-        tab1 = self.context.new_page()
-        tab2 = self.context.new_page()
-        tab1.goto("https://github.com")
-        tab2.goto("https://youtube.com")
-        tab2.wait_for_timeout(2000)
-        tab1.bring_to_front()
-        tab1.wait_for_timeout(2000)
+class TestPressAndHold:
+    def test_press_and_hold(self):
+        press_button = self.page.locator("#btn-hold")
+        self.page.wait_for_timeout(3000)
+        expect(press_button).to_be_visible()
+        press_button.hover()
+        self.page.mouse.down()
+        self.page.wait_for_timeout(3000)
+        self.page.mouse.up()
