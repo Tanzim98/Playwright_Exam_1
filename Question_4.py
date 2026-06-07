@@ -2,7 +2,7 @@ import time
 from importlib import reload
 
 import pytest
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, expect
 
 # step 1: Choose Browser / Supported Browser
 Supported_Browsers = ["Firefox", "Chrome", "Webkit", "Safari"]
@@ -11,7 +11,7 @@ Supported_Browsers = ["Firefox", "Chrome", "Webkit", "Safari"]
 Browser_Name = "firefox"
 
 # STep 3: URL
-URL = " https://automation.ebrahimhossain.com.bd/hovers.html"
+URL = "https://automation.ebrahimhossain.com.bd/drag-and-drop.html"
 Headless = False
 # Step 4: Setup + Teardown
 
@@ -21,6 +21,7 @@ def setup(request):
 
     # Step 5: Start Playwright
     playwright = sync_playwright().start()
+    playwright.selectors.set_test_id_attribute("data-test-id")
 
     # step 6: Browser Launch
     if Browser_Name == "chromium":
@@ -56,17 +57,11 @@ def setup(request):
 
 
 @pytest.mark.usefixtures("setup")
-class TestNestedMenu:
-    def test_nested_menu_hover(self):
+class TestDragAndDrop:
+    def test_drag_and_drop(self):
 
-        first_layer = self.page.get_by_test_id("tree-menu-root")
-        first_layer.hover()
-        self.page.wait_for_timeout(2000)
-
-        second_layer = self.page.get_by_test_id("tree-l2-electronics")
-        second_layer.hover()
-        self.page.wait_for_timeout(2000)
-
-        third_layer = self.page.get_by_test_id("tree-l3-audio")
-        third_layer.hover()
+        source = self.page.locator("#draggable-simple")
+        source_box = self.page.locator("#source-box")
+        target_box = self.page.locator("#target-box")
+        source.drag_to(target_box)
         self.page.wait_for_timeout(2000)
